@@ -8,7 +8,7 @@ class RoomAllocationService {
         throw new Error('Maximum 5 rooms can be booked at a time');
       }
   
-      // Get all available rooms
+      // get all available rooms
       const availableRooms = await Room.findAll({
         where: { is_occupied: false },
         include: [{ model: Floor, as: 'floor' }],
@@ -19,7 +19,7 @@ class RoomAllocationService {
         throw new Error('Not enough rooms available');
       }
   
-      // Group rooms by floor
+      // group rooms by floor
       const roomsByFloor = {};
       availableRooms.forEach(room => {
         if (!roomsByFloor[room.floor.floor_number]) {
@@ -28,16 +28,15 @@ class RoomAllocationService {
         roomsByFloor[room.floor.floor_number].push(room);
       });
   
-      // 1. First priority: Find rooms on the same floor
+      // 1. first: find rooms on the same floor
       for (const floorNumber in roomsByFloor) {
         const floorRooms = roomsByFloor[floorNumber];
         if (floorRooms.length >= numberOfRooms) {
-          // If we have enough rooms on this floor, just take the first 'numberOfRooms'
           return floorRooms.slice(0, numberOfRooms);
         }
       }
   
-      // 2. Second priority: Find optimal combination across floors
+      // 2. second: find optimal combination
       return this.findOptimalCombination(availableRooms, numberOfRooms);
     } catch (err) {
       console.error('Error finding optimal rooms:', err);
@@ -58,7 +57,7 @@ class RoomAllocationService {
     let bestCombination = null;
     let minTravelTime = Infinity;
 
-    // Generate combinations using an iterative approach
+    // generate combinations
     const combinations = this.generateCombinations(availableRooms, numberOfRooms);
 
     for (const combination of combinations) {
@@ -78,7 +77,6 @@ class RoomAllocationService {
     if (n === r) {
       return [rooms];
     }
-    // Use an iterative approach instead of recursion
     for (let i = 0; i <= n - r; i++) {
       for (let j = i + 1; j <= n - (r - 1); j++) {
         for (let k = j + 1; k <= n - (r - 2); k++) {
@@ -106,13 +104,13 @@ class RoomAllocationService {
     try {
       const optimalRooms = await this.findOptimalRooms(numberOfRooms);
 
-      // Create booking
+      // create booking
       const booking = await Booking.create({
         number_of_rooms: numberOfRooms,
         total_travel_time: calculateTotalTravelTime(optimalRooms)
       });
 
-      // Update rooms
+      // update rooms
       await Promise.all(optimalRooms.map(room => 
         room.update({
           is_occupied: true,

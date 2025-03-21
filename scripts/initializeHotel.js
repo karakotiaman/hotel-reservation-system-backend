@@ -2,7 +2,7 @@ const { Floor, Room } = require('../models');
 
 async function initializeHotel() {
   try {
-    // Create floors
+    // create floors
     for (let floorNumber = 1; floorNumber <= 10; floorNumber++) {
       const totalRooms = floorNumber === 10 ? 7 : 10;
       const floor = await Floor.create({
@@ -11,7 +11,7 @@ async function initializeHotel() {
         is_top_floor: floorNumber === 10
       });
 
-      // Create rooms for each floor
+      // create rooms in each floor
       for (let position = 1; position <= totalRooms; position++) {
         const roomNumber = floorNumber === 10 
           ? 1000 + position 

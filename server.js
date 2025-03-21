@@ -14,8 +14,8 @@ app.use('/api', bookingRoutes);
 
 async function startServer() {
   try {
-    await sequelize.sync({ force: false, logging: false, alter: false });
-    // await initializeHotel();
+    await sequelize.sync({ force: true, logging: false, alter: false });
+    await initializeHotel();
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

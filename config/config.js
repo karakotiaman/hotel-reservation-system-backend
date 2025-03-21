@@ -8,10 +8,10 @@ module.exports = {
     'host': process.env.DB_HOST,
     'port':process.env.DB_PORT,
     'dialect': 'mysql',
-    'max': 20, // maximum connection which postgresql or mysql can initiate
-    'min': 0, // minimum connection which postgresql or mysql can initiate
-    'acquire': 20000, // time require to reconnect
-    'idle': 20000, // get idle connection
+    'max': 20,
+    'min': 0,
+    'acquire': 20000,
+    'idle': 20000,
     'evict': 10000
   },
   "test": {
