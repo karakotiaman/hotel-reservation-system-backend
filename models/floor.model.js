@@ -25,10 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     occupied: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-    },
-    is_top_floor: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
     }
   }, {
     underscored: true,

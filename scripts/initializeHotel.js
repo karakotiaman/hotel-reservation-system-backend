@@ -8,7 +8,6 @@ async function initializeHotel() {
       const floor = await Floor.create({
         floor_number: floorNumber,
         total_rooms: totalRooms,
-        is_top_floor: floorNumber === 10
       });
 
       // create rooms in each floor

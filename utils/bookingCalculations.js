@@ -18,16 +18,12 @@ const calculateTotalTravelTime = (rooms) => {
     return (a.room_number % 100) - (b.room_number % 100);
   });
 
-  // calculate the total travel time between all rooms
-  let totalTime = 0;
-  for (let i = 0; i < sortedRooms.length - 1; i++) {
-    totalTime += calculateTravelTime(
-      sortedRooms[i].room_number,
-      sortedRooms[i + 1].room_number
-    );
-  }
+  // calculate the total travel time between first and last room
+  return calculateTravelTime(
+    sortedRooms[0].room_number, 
+    sortedRooms[sortedRooms.length - 1].room_number
+  );
   
-  return totalTime;
 };
 
 module.exports = {

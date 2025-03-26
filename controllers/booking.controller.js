@@ -65,7 +65,6 @@ class BookingController {
         floors: floors.map(floor => ({
           floorNumber: floor.floor_number,
           totalRooms: floor.total_rooms,
-          isTopFloor: floor.is_top_floor
         })),
         rooms: rooms.map(room => ({
           roomNumber: room.room_number,

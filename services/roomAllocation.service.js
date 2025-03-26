@@ -35,7 +35,6 @@ class RoomAllocationService {
           return floorRooms.slice(0, numberOfRooms);
         }
       }
-  
       // 2. second: find optimal combination
       return this.findOptimalCombination(availableRooms, numberOfRooms);
     } catch (err) {
@@ -77,26 +76,23 @@ class RoomAllocationService {
     if (n === r) {
       return [rooms];
     }
-    for (let i = 0; i <= n - r; i++) {
-      for (let j = i + 1; j <= n - (r - 1); j++) {
-        for (let k = j + 1; k <= n - (r - 2); k++) {
-          if (r === 3) {
-            combinations.push([rooms[i], rooms[j], rooms[k]]);
-          } else {
-            for (let l = k + 1; l <= n - (r - 3); l++) {
-              if (r === 4) {
-                combinations.push([rooms[i], rooms[j], rooms[k], rooms[l]]);
-              } else {
-                for (let m = l + 1; m < n; m++) {
-                  combinations.push([rooms[i], rooms[j], rooms[k], rooms[l], rooms[m]]);
-                }
-              }
-            }
-          }
-        }
+
+    const indices = Array.from({ length: r }, (_, i) => i);
+    while (true) {
+      combinations.push(indices.map(i => rooms[i])); // Store current combination
+      // Find the rightmost index that can be incremented
+      let i = r - 1;
+      while (i >= 0 && indices[i] === i + n - r) {
+        i--;
+      }
+  
+      if (i < 0) break;
+  
+      indices[i]++;
+      for (let j = i + 1; j < r; j++) {
+        indices[j] = indices[j - 1] + 1;
       }
     }
-
     return combinations;
   }
 
